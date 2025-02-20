@@ -14,6 +14,8 @@ void help() {
             << std::endl;
   std::cout << "< --help>     | visualizza questa schermata" << std::endl;
   std::cout << std::endl;
+  std::cout << "per [value] non sono ammessi spazi" << std::endl;
+  std::cout << std::endl;
   std::cout << "Es..." << std::endl;
   std::cout << std::endl;
   std::cout << "./a.out add palestra" << std::endl;
@@ -31,6 +33,8 @@ void add(std::string path, int argc, std::string argv) {
     std::cout << "Sintassi sbagliata controlla --help" << std::endl;
 }
 
+void ls(std::string path) { system(("cat " + path).c_str()); }
+
 void checkArg(int argc, char *argv[]) {
   if (argc > 1) {
     std::string argv1 = argv[1];
@@ -38,7 +42,7 @@ void checkArg(int argc, char *argv[]) {
       std::cout << "Sintassi sbagliata controlla --help" << std::endl;
     } else {
       if (argv1 == "ls")
-        std::cout << "ls";
+        ls("to-do.txt");
       else if (argv1 == "add") {
         std::string argv2 = argv[2];
         add("to-do.txt", argc, argv2);
