@@ -22,17 +22,27 @@ void help() {
   exit(0);
 }
 
+void add(std::string path, int argc, std::string argv) {
+  if (argc > 2) {
+    std::ofstream file(path, std::ios::app);
+    file << argv << std::endl;
+    file.close();
+  } else
+    std::cout << "Sintassi sbagliata controlla --help" << std::endl;
+}
+
 void checkArg(int argc, char *argv[]) {
   if (argc > 1) {
     std::string argv1 = argv[1];
     if (argv1 != "add" && argv1 != "--help" && argv1 != "ls" && argv1 != "rm") {
-      std::cout << "Wrong syntax check --help" << std::endl;
+      std::cout << "Sintassi sbagliata controlla --help" << std::endl;
     } else {
       if (argv1 == "ls")
         std::cout << "ls";
-      else if (argv1 == "add")
-        std::cout << "add";
-      else if (argv1 == "--help")
+      else if (argv1 == "add") {
+        std::string argv2 = argv[2];
+        add("to-do.txt", argc, argv2);
+      } else if (argv1 == "--help")
         help();
       else if (argv1 == "rm")
         std::cout << "rm";
