@@ -13,6 +13,9 @@ void help() {
             << std::endl;
   std::cout << "<rm> [value]  | rimuove l'[elemento] dalla todo list"
             << std::endl;
+  std::cout
+      << "<rm> [-a] | [--all] | rimuove tutti gli elementi dalla todo list"
+      << std::endl;
   std::cout << "<ls>          | visualizza tutti gli elementi della todo list"
             << std::endl;
   std::cout << "< --help>     | visualizza questa schermata" << std::endl;
@@ -37,6 +40,8 @@ void add(std::string path, std::string argv) {
 void ls(std::string path) { system(("cat " + path).c_str()); }
 
 void rm(std::string path, std::string argv) {
+  if (argv == "--all" || argv == "-a")
+    system(("echo '' > " + path).c_str());
   std::ifstream file(path);
   std::stringstream buffer;
   buffer << file.rdbuf();
