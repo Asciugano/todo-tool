@@ -1,6 +1,9 @@
+#include <cstddef>
+#include <cstdlib>
 #include <fstream>
 #include <iostream>
 #include <ostream>
+#include <sstream>
 #include <string>
 
 void help() {
@@ -20,20 +23,36 @@ void help() {
   std::cout << std::endl;
   std::cout << "./a.out add palestra" << std::endl;
   std::cout << "./a.out rm palestra" << std::endl;
+  std::cout << std::endl;
   std::cout << "..." << std::endl;
   exit(0);
 }
 
-void add(std::string path, int argc, std::string argv) {
-  if (argc > 2) {
-    std::ofstream file(path, std::ios::app);
-    file << argv << std::endl;
-    file.close();
-  } else
-    std::cout << "Sintassi sbagliata controlla --help" << std::endl;
+void add(std::string path, std::string argv) {
+  std::ofstream file(path, std::ios::app);
+  file << argv << std::endl;
+  file.close();
 }
 
 void ls(std::string path) { system(("cat " + path).c_str()); }
+
+void rm(std::string path, std::string argv) {
+  std::ifstream file(path);
+  std::stringstream buffer;
+  buffer << file.rdbuf();
+  file.close();
+
+  std::string content = buffer.str();
+
+  size_t pos;
+  while ((pos = content.find(argv, pos)) != std::string::npos) {
+    content.erase(pos, argv.length());
+  }
+
+  std::ofstream outFile(path);
+  outFile << content;
+  outFile.close();
+}
 
 void checkArg(int argc, char *argv[]) {
   if (argc > 1) {
@@ -44,12 +63,24 @@ void checkArg(int argc, char *argv[]) {
       if (argv1 == "ls")
         ls("to-do.txt");
       else if (argv1 == "add") {
-        std::string argv2 = argv[2];
-        add("to-do.txt", argc, argv2);
+        if (argc > 2) {
+          std::string argv2 = argv[2];
+          add("to-do.txt", argv2);
+        } else {
+          std::cout << "Sintassi sbagliata controlla --help" << std::endl;
+          exit(1);
+        }
       } else if (argv1 == "--help")
         help();
-      else if (argv1 == "rm")
-        std::cout << "rm";
+      else if (argv1 == "rm") {
+        if (argc > 2) {
+          std::string argv2 = argv[2];
+          rm("to-do.txt", argv2);
+        } else {
+          std::cout << "Sintassi sbagliata controlla --help" << std::endl;
+          exit(1);
+        }
+      }
     }
     exit(0);
   } else {
