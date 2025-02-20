@@ -1,0 +1,34 @@
+
+# Compilati ed eseguibili
+*.out
+*.o
+*.obj
+*.exe
+*.dll
+*.so
+*.dylib
+
+# File di build e dipendenze
+CMakeCache.txt
+CMakeFiles/
+Makefile
+build/
+dist/
+
+# File di log e temporanei
+*.log
+*.tmp
+
+# File di configurazione dell'IDE
+.vscode/
+.idea/
+*.code-workspace
+
+# Backup e altri file temporanei
+*~
+*.swp
+*.swo
+.DS_Store
+Thumbs.db
+
+*.txt
