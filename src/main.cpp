@@ -7,7 +7,7 @@
 #include <string>
 
 void help() {
-  std::cout << "to-do <operation> [value]" << std::endl;
+  std::cout << "todo <operation> [value]" << std::endl;
   std::cout << std::endl;
   std::cout << "<add> [value] | aggiunge l'[elemento] nella todo list"
             << std::endl;
@@ -51,7 +51,11 @@ void rm(std::string path, std::string argv) {
 
   size_t pos;
   while ((pos = content.find(argv, pos)) != std::string::npos) {
-    content.erase(pos, argv.length());
+    size_t endPos = content.find("\n", pos);
+    if (endPos != std::string::npos)
+      content.erase(pos, endPos - pos + 1);
+    else
+      content.erase(pos);
   }
 
   std::ofstream outFile(path);
@@ -89,7 +93,7 @@ void checkArg(int argc, char *argv[]) {
     }
     exit(0);
   } else {
-    std::cout << "Wrong sintax check --help";
+    std::cout << "Sintassi sbagliata controlla --help" << std::endl;
     exit(1);
   }
 }
