@@ -5,6 +5,7 @@
 #include <ostream>
 #include <sstream>
 #include <string>
+#include <vector>
 
 void help() {
   std::cout << "todo <operation> [value]" << std::endl;
@@ -64,9 +65,11 @@ void rm(std::string path, std::string argv) {
 }
 
 void checkArg(int argc, char *argv[]) {
+  std::vector<std::string> options = {"add", "--help", "ls",    "rm",
+                                      "-n",  "--new",  "change"};
   if (argc > 1) {
     std::string argv1 = argv[1];
-    if (argv1 != "add" && argv1 != "--help" && argv1 != "ls" && argv1 != "rm") {
+    if (std::find(options.begin(), options.end(), argv1) == options.end()) {
       std::cout << "Sintassi sbagliata controlla --help" << std::endl;
     } else {
       if (argv1 == "ls")
@@ -89,6 +92,10 @@ void checkArg(int argc, char *argv[]) {
           std::cout << "Sintassi sbagliata controlla --help" << std::endl;
           exit(1);
         }
+      } else if (argv1 == "-n" || argv1 == "--new") {
+        std::cout << "new";
+      } else if (argv1 == "change") {
+        std::cout << "change";
       }
     }
     exit(0);
