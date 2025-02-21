@@ -105,8 +105,9 @@ void checkArg(int argc, char *argv[]) {
       std::cout << "new";
     else if (argv1 == "change" && argc > 2)
       std::cout << "change";
-  } else {
-    std::cout << "Sintassi sbagliata, controlla --help\n";
+    else {
+      std::cout << "Sintassi sbagliata, controlla --help\n";
+    }
   }
 }
 
