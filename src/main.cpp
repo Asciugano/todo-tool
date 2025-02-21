@@ -17,15 +17,18 @@ std::string getPath() {
 }
 
 void help() {
-  std::cout << "todo <operation> [value]\n\n"
-            << "<add> [value]   | Aggiunge un elemento alla todo list\n"
-            << "<rm> [value]    | Rimuove un elemento dalla todo list\n"
-            << "<rm> [-a|--all] | Rimuove tutti gli elementi\n"
-            << "<ls>            | Visualizza tutti gli elementi\n"
-            << "<--help>        | Mostra questa schermata\n\n"
-            << "Esempi:\n"
-            << "./a.out add palestra\n"
-            << "./a.out rm palestra\n\n";
+  std::cout
+      << "todo <operation> [value]\n\n"
+      << "<add> [value]        | Aggiunge un elemento alla todo list\n"
+      << "<rm> [value]         | Rimuove un elemento dalla todo list\n"
+      << "<rm> [-a|--all]      | Rimuove tutti gli elementi\n"
+      << "<ls>                 | Visualizza tutti gli elementi\n"
+      << "<-n | --new> [value] | crea una nuova lista con nome [value]\n"
+      << "<change> [value]     | cambia dalla lista corrente a quella [value]\n"
+      << "<--help>             | Mostra questa schermata\n\n"
+      << "Esempi:\n"
+      << "./a.out add palestra\n"
+      << "./a.out rm palestra\n\n";
 }
 
 void add(const std::string &path, const std::string &argv) {
@@ -82,8 +85,8 @@ void rm(const std::string &path, const std::string &argv) {
 }
 
 void checkArg(int argc, char *argv[]) {
-  std::vector<std::string> options = {"add", "--help", "ls",    "rm",
-                                      "-n",  "--new",  "change"};
+  std::vector<std::string> options = {"add", "--help", "-h",    "ls",
+                                      "rm",  "-n",     "--new", "change"};
 
   if (argc > 1) {
     std::string argv1 = argv[1];
@@ -97,7 +100,7 @@ void checkArg(int argc, char *argv[]) {
       ls(path);
     else if (argv1 == "add" && argc > 2)
       add(path, argv[2]);
-    else if (argv1 == "--help")
+    else if (argv1 == "--help" || argv1 == "-h")
       help();
     else if (argv1 == "rm" && argc > 2)
       rm(path, argv[2]);
