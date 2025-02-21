@@ -101,6 +101,10 @@ void checkArg(int argc, char *argv[]) {
       help();
     else if (argv1 == "rm" && argc > 2)
       rm(path, argv[2]);
+    else if ((argv1 == "-n" || argv1 == "--new") && argc > 2)
+      std::cout << "new";
+    else if (argv1 == "change" && argc > 2)
+      std::cout << "change";
   } else {
     std::cout << "Sintassi sbagliata, controlla --help\n";
   }
