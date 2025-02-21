@@ -87,6 +87,14 @@ void rm(const std::string &path, const std::string &argv) {
 void newPath(std::string argv) {
   if (argv.find(".txt") == std::string::npos)
     argv.append(".txt");
+  std::ofstream newFile(argv);
+  std::cout << argv << "file creato" << std::endl;
+  newFile.close();
+}
+
+void change(std::string argv) {
+  if (argv.find(".txt") == std::string::npos)
+    argv.append(".txt");
   std::ofstream file("./src/path.txt");
   if (!file) {
     std::cerr << "nessun file trovato" << std::endl;
@@ -94,8 +102,6 @@ void newPath(std::string argv) {
   }
   file << argv;
   file.close();
-  std::ofstream newFile(argv);
-  std::cout << argv << "file greato" << std::endl;
 }
 
 void checkArg(int argc, char *argv[]) {
@@ -121,7 +127,7 @@ void checkArg(int argc, char *argv[]) {
     else if ((argv1 == "-n" || argv1 == "--new") && argc > 2)
       newPath(argv[2]);
     else if (argv1 == "change" && argc > 2)
-      std::cout << "change";
+      change(argv[2]);
     else {
       std::cout << "Sintassi sbagliata, controlla --help\n";
     }
