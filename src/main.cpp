@@ -29,6 +29,7 @@ void help() {
          "[value]\n"
       << "<-nc | --new-change> [value] | fa il new e il change insime\n"
       << "<--help>                     | Mostra questa schermata\n\n"
+      << "La lista default e to-do\n\n"
       << "Esempi:\n"
       << "./a.out add palestra\n"
       << "./a.out rm palestra\n\n";
