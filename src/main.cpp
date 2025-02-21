@@ -19,13 +19,16 @@ std::string getPath() {
 void help() {
   std::cout
       << "todo <operation> [value]\n\n"
-      << "<add> [value]        | Aggiunge un elemento alla todo list\n"
-      << "<rm> [value]         | Rimuove un elemento dalla todo list\n"
-      << "<rm> [-a|--all]      | Rimuove tutti gli elementi\n"
-      << "<ls>                 | Visualizza tutti gli elementi\n"
-      << "<-n | --new> [value] | crea una nuova lista con nome [value]\n"
-      << "<change> [value]     | cambia dalla lista corrente a quella [value]\n"
-      << "<--help>             | Mostra questa schermata\n\n"
+      << "<add> [value]                | Aggiunge un elemento alla todo list\n"
+      << "<rm> [value]                 | Rimuove un elemento dalla todo list\n"
+      << "<rm> [-a|--all]              | Rimuove tutti gli elementi\n"
+      << "<ls>                         | Visualizza tutti gli elementi\n"
+      << "<-n | --new> [value]         | crea una nuova lista con nome "
+         "[value]\n"
+      << "<change> [value]             | cambia dalla lista corrente a quella "
+         "[value]\n"
+      << "<-nc | --new-change> [value] | fa il new e il change insime\n"
+      << "<--help>                     | Mostra questa schermata\n\n"
       << "Esempi:\n"
       << "./a.out add palestra\n"
       << "./a.out rm palestra\n\n";
@@ -105,8 +108,9 @@ void change(std::string argv) {
 }
 
 void checkArg(int argc, char *argv[]) {
-  std::vector<std::string> options = {"add", "--help", "-h",    "ls",
-                                      "rm",  "-n",     "--new", "change"};
+  std::vector<std::string> options = {"add", "--help",      "-h",    "ls",
+                                      "rm",  "-n",          "--new", "change",
+                                      "-nc", "--new-change"};
 
   if (argc > 1) {
     std::string argv1 = argv[1];
@@ -128,7 +132,10 @@ void checkArg(int argc, char *argv[]) {
       newPath(argv[2]);
     else if (argv1 == "change" && argc > 2)
       change(argv[2]);
-    else {
+    else if ((argv1 == "-nc" || argv1 == "--new-change") && argc > 2) {
+      newPath(argv[2]);
+      change(argv[2]);
+    } else {
       std::cout << "Sintassi sbagliata, controlla --help\n";
     }
   }
