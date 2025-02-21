@@ -1,56 +1,74 @@
-#include <cstddef>
-#include <cstdlib>
+#include <algorithm>
 #include <fstream>
 #include <iostream>
-#include <ostream>
 #include <sstream>
 #include <string>
 #include <vector>
 
+std::string getPath() {
+  std::ifstream file("./src/path.txt");
+  if (!file) {
+    std::cerr << "Errore: impossibile aprire path.txt\n";
+    return "";
+  }
+  std::string path;
+  std::getline(file, path);
+  return path;
+}
+
 void help() {
-  std::cout << "todo <operation> [value]" << std::endl;
-  std::cout << std::endl;
-  std::cout << "<add> [value] | aggiunge l'[elemento] nella todo list"
-            << std::endl;
-  std::cout << "<rm> [value]  | rimuove l'[elemento] dalla todo list"
-            << std::endl;
-  std::cout
-      << "<rm> [-a] | [--all] | rimuove tutti gli elementi dalla todo list"
-      << std::endl;
-  std::cout << "<ls>          | visualizza tutti gli elementi della todo list"
-            << std::endl;
-  std::cout << "< --help>     | visualizza questa schermata" << std::endl;
-  std::cout << std::endl;
-  std::cout << "per [value] non sono ammessi spazi" << std::endl;
-  std::cout << std::endl;
-  std::cout << "Es..." << std::endl;
-  std::cout << std::endl;
-  std::cout << "./a.out add palestra" << std::endl;
-  std::cout << "./a.out rm palestra" << std::endl;
-  std::cout << std::endl;
-  std::cout << "..." << std::endl;
-  exit(0);
+  std::cout << "todo <operation> [value]\n\n"
+            << "<add> [value]   | Aggiunge un elemento alla todo list\n"
+            << "<rm> [value]    | Rimuove un elemento dalla todo list\n"
+            << "<rm> [-a|--all] | Rimuove tutti gli elementi\n"
+            << "<ls>            | Visualizza tutti gli elementi\n"
+            << "<--help>        | Mostra questa schermata\n\n"
+            << "Esempi:\n"
+            << "./a.out add palestra\n"
+            << "./a.out rm palestra\n\n";
 }
 
-void add(std::string path, std::string argv) {
+void add(const std::string &path, const std::string &argv) {
   std::ofstream file(path, std::ios::app);
-  file << argv << std::endl;
-  file.close();
+  if (!file) {
+    std::cerr << "Errore: impossibile aprire " << path << "\n";
+    return;
+  }
+  file << argv << "\n";
 }
 
-void ls(std::string path) { system(("cat " + path).c_str()); }
-
-void rm(std::string path, std::string argv) {
-  if (argv == "--all" || argv == "-a")
-    system(("echo '' > " + path).c_str());
+void ls(const std::string &path) {
   std::ifstream file(path);
+  if (!file) {
+    std::cerr << "Errore: impossibile aprire " << path << "\n";
+    return;
+  }
+
+  std::string line;
+  while (std::getline(file, line)) {
+    std::cout << line << "\n";
+  }
+}
+
+void rm(const std::string &path, const std::string &argv) {
+  if (argv == "--all" || argv == "-a") {
+    std::ofstream outFile(path, std::ios::trunc);
+    outFile.close();
+    return;
+  }
+
+  std::ifstream file(path);
+  if (!file) {
+    std::cerr << "Errore: impossibile aprire " << path << "\n";
+    return;
+  }
+
   std::stringstream buffer;
   buffer << file.rdbuf();
   file.close();
 
   std::string content = buffer.str();
-
-  size_t pos;
+  size_t pos = 0;
   while ((pos = content.find(argv, pos)) != std::string::npos) {
     size_t endPos = content.find("\n", pos);
     if (endPos != std::string::npos)
@@ -61,47 +79,30 @@ void rm(std::string path, std::string argv) {
 
   std::ofstream outFile(path);
   outFile << content;
-  outFile.close();
 }
 
 void checkArg(int argc, char *argv[]) {
   std::vector<std::string> options = {"add", "--help", "ls",    "rm",
                                       "-n",  "--new",  "change"};
+
   if (argc > 1) {
     std::string argv1 = argv[1];
     if (std::find(options.begin(), options.end(), argv1) == options.end()) {
-      std::cout << "Sintassi sbagliata controlla --help" << std::endl;
-    } else {
-      if (argv1 == "ls")
-        ls("to-do.txt");
-      else if (argv1 == "add") {
-        if (argc > 2) {
-          std::string argv2 = argv[2];
-          add("to-do.txt", argv2);
-        } else {
-          std::cout << "Sintassi sbagliata controlla --help" << std::endl;
-          exit(1);
-        }
-      } else if (argv1 == "--help")
-        help();
-      else if (argv1 == "rm") {
-        if (argc > 2) {
-          std::string argv2 = argv[2];
-          rm("to-do.txt", argv2);
-        } else {
-          std::cout << "Sintassi sbagliata controlla --help" << std::endl;
-          exit(1);
-        }
-      } else if (argv1 == "-n" || argv1 == "--new") {
-        std::cout << "new";
-      } else if (argv1 == "change") {
-        std::cout << "change";
-      }
+      std::cout << "Sintassi sbagliata, controlla --help\n";
+      return;
     }
-    exit(0);
+
+    std::string path = getPath();
+    if (argv1 == "ls")
+      ls(path);
+    else if (argv1 == "add" && argc > 2)
+      add(path, argv[2]);
+    else if (argv1 == "--help")
+      help();
+    else if (argv1 == "rm" && argc > 2)
+      rm(path, argv[2]);
   } else {
-    std::cout << "Sintassi sbagliata controlla --help" << std::endl;
-    exit(1);
+    std::cout << "Sintassi sbagliata, controlla --help\n";
   }
 }
 
