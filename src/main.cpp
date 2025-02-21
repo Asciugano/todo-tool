@@ -84,6 +84,20 @@ void rm(const std::string &path, const std::string &argv) {
   outFile << content;
 }
 
+void newPath(std::string argv) {
+  if (argv.find(".txt") == std::string::npos)
+    argv.append(".txt");
+  std::ofstream file("./src/path.txt");
+  if (!file) {
+    std::cerr << "nessun file trovato" << std::endl;
+    exit(1);
+  }
+  file << argv;
+  file.close();
+  std::ofstream newFile(argv);
+  std::cout << argv << "file greato" << std::endl;
+}
+
 void checkArg(int argc, char *argv[]) {
   std::vector<std::string> options = {"add", "--help", "-h",    "ls",
                                       "rm",  "-n",     "--new", "change"};
@@ -105,7 +119,7 @@ void checkArg(int argc, char *argv[]) {
     else if (argv1 == "rm" && argc > 2)
       rm(path, argv[2]);
     else if ((argv1 == "-n" || argv1 == "--new") && argc > 2)
-      std::cout << "new";
+      newPath(argv[2]);
     else if (argv1 == "change" && argc > 2)
       std::cout << "change";
     else {
