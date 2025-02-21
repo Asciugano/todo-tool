@@ -1,4 +1,5 @@
 #include <algorithm>
+#include <cstdio>
 #include <fstream>
 #include <iostream>
 #include <sstream>
@@ -22,12 +23,13 @@ void help() {
       << "<add> [value]                | Aggiunge un elemento alla todo list\n"
       << "<rm> [value]                 | Rimuove un elemento dalla todo list\n"
       << "<rm> [-a|--all]              | Rimuove tutti gli elementi\n"
+      << "<rm> [-f] [value]            | Rivuove la lista [value]\n"
       << "<ls>                         | Visualizza tutti gli elementi\n"
-      << "<-n | --new> [value]         | crea una nuova lista con nome "
+      << "<-n | --new> [value]         | Crea una nuova lista con nome "
          "[value]\n"
-      << "<change> [value]             | cambia dalla lista corrente a quella "
+      << "<change> [value]             | Cambia dalla lista corrente a quella "
          "[value]\n"
-      << "<-nc | --new-change> [value] | fa il new e il change insime\n"
+      << "<-nc | --new-change> [value] | Fa il new e il change insime\n"
       << "<--help>                     | Mostra questa schermata\n\n"
       << "La lista default e to-do\n\n"
       << "Esempi:\n"
@@ -108,6 +110,15 @@ void change(std::string argv) {
   file.close();
 }
 
+void rmFile(std::string argv) {
+  if (argv.find(".txt") == std::string::npos)
+    argv.append(".txt");
+  if (remove(argv.c_str()) != 0)
+    std::cerr << "non sono riuscito a rimouvere " << argv << std::endl;
+  else
+    std::cout << argv << " rimosso" << std::endl;
+}
+
 void checkArg(int argc, char *argv[]) {
   std::vector<std::string> options = {"add", "--help",      "-h",    "ls",
                                       "rm",  "-n",          "--new", "change",
@@ -127,9 +138,16 @@ void checkArg(int argc, char *argv[]) {
       add(path, argv[2]);
     else if (argv1 == "--help" || argv1 == "-h")
       help();
-    else if (argv1 == "rm" && argc > 2)
+    else if (argv1 == "rm" && argc > 2) {
+      if (argc > 3) {
+        std::string argv2 = argv[2];
+        if (argv2 == "-f")
+          rmFile(argv[3]);
+        else
+          std::cout << "Sintassi sbagliata, controlla --help\n";
+      }
       rm(path, argv[2]);
-    else if ((argv1 == "-n" || argv1 == "--new") && argc > 2)
+    } else if ((argv1 == "-n" || argv1 == "--new") && argc > 2)
       newPath(argv[2]);
     else if (argv1 == "change" && argc > 2)
       change(argv[2]);
