@@ -111,7 +111,9 @@ void change(std::string argv) {
   if (argv.find(".txt") == std::string::npos)
     argv.append(".txt");
   argv = addAbsolutePath(argv);
-  std::ofstream file(getPath());
+  std::ofstream file(addAbsolutePath("src/path.txt"));
+  std::cout << "path = " << addAbsolutePath("src/path.txt")
+            << " | file = " << argv << std::endl;
   if (!file) {
     std::cerr << "nessun file trovato" << std::endl;
     exit(1);
