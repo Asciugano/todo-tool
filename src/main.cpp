@@ -104,6 +104,7 @@ void change(std::string argv) {
   if (argv.find(".txt") == std::string::npos)
     argv.append(".txt");
   std::ofstream file(getPath());
+  argv.insert(0, "/Users/samuelediaferio/Desktop/to-do_list/");
   if (!file) {
     std::cerr << "nessun file trovato" << std::endl;
     exit(1);
