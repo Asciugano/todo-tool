@@ -1,5 +1,6 @@
 #include <algorithm>
 #include <cstdio>
+#include <filesystem>
 #include <fstream>
 #include <iostream>
 #include <sstream>
@@ -25,6 +26,7 @@ void help() {
       << "<rm> [-a|--all]              | Rimuove tutti gli elementi\n"
       << "<rm> [-f] [value]            | Rivuove la lista [value]\n"
       << "<ls>                         | Visualizza tutti gli elementi\n"
+      << "<ls> [-l | --list]           | Visualizza tutte le liste\n"
       << "<-n | --new> [value]         | Crea una nuova lista con nome "
          "[value]\n"
       << "<change> [value]             | Cambia dalla lista corrente a quella "
@@ -119,6 +121,13 @@ void rmFile(std::string argv) {
     std::cout << argv << " rimosso" << std::endl;
 }
 
+void ls_list() {
+  for (const auto &entry : std::filesystem::directory_iterator(".")) {
+    if (entry.is_regular_file() && entry.path().extension() == ".txt")
+      std::cout << entry.path().filename() << std::endl;
+  }
+}
+
 void checkArg(int argc, char *argv[]) {
   std::vector<std::string> options = {"add", "--help",      "-h",    "ls",
                                       "rm",  "-n",          "--new", "change",
@@ -132,9 +141,16 @@ void checkArg(int argc, char *argv[]) {
     }
 
     std::string path = getPath();
-    if (argv1 == "ls")
+    if (argv1 == "ls") {
+      if (argc > 2) {
+        std::string argv2 = argv[2];
+        if (argv2 == "-l" || argv2 == "--list")
+          ls_list();
+        else
+          std::cout << "Sintassi sbagliata, controlla --help\n";
+      }
       ls(path);
-    else if (argv1 == "add" && argc > 2)
+    } else if (argv1 == "add" && argc > 2)
       add(path, argv[2]);
     else if (argv1 == "--help" || argv1 == "-h")
       help();
