@@ -46,7 +46,6 @@ void help() {
 }
 
 void add(std::string &path, const std::string &argv) {
-  path = addAbsolutePath(path);
   std::ofstream file(path, std::ios::app);
   if (!file) {
     std::cerr << "Errore: impossibile aprire " << path << "\n";
@@ -56,7 +55,6 @@ void add(std::string &path, const std::string &argv) {
 }
 
 void ls(std::string &path) {
-  path = addAbsolutePath(path);
   std::ifstream file(path);
   if (!file) {
     std::cerr << "Errore: impossibile aprire " << path << "\n";
@@ -70,7 +68,6 @@ void ls(std::string &path) {
 }
 
 void rm(std::string &path, const std::string &argv) {
-  path = addAbsolutePath(path);
   if (argv == "--all" || argv == "-a") {
     std::ofstream outFile(path, std::ios::trunc);
     outFile.close();
@@ -97,8 +94,6 @@ void rm(std::string &path, const std::string &argv) {
       content.erase(pos);
   }
 
-  path = addAbsolutePath(path);
-
   std::ofstream outFile(path);
   outFile << content;
 }
@@ -106,7 +101,6 @@ void rm(std::string &path, const std::string &argv) {
 void newPath(std::string argv) {
   if (argv.find(".txt") == std::string::npos)
     argv.append(".txt");
-  argv = addAbsolutePath(argv);
   std::ofstream newFile(argv);
   std::cout << argv << "file creato" << std::endl;
   newFile.close();
