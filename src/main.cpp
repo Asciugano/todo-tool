@@ -123,6 +123,7 @@ void change(std::string argv) {
 void rmFile(std::string argv) {
   if (argv.find(".txt") == std::string::npos)
     argv.append(".txt");
+  argv = addAbsolutePath(argv);
   if (remove(argv.c_str()) != 0)
     std::cerr << "non sono riuscito a rimouvere " << argv << std::endl;
   else
@@ -130,7 +131,8 @@ void rmFile(std::string argv) {
 }
 
 void ls_list() {
-  for (const auto &entry : std::filesystem::directory_iterator(".")) {
+  for (const auto &entry :
+       std::filesystem::directory_iterator(addAbsolutePath(""))) {
     if (entry.is_regular_file()) {
       std::string ext = entry.path().extension().string();
 
