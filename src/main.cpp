@@ -9,9 +9,7 @@
 #include <vector>
 
 std::string addAbsolutePath(std::string path) {
-  return (!path.empty())
-             ? path.insert(0, "/Users/samuelediaferio/Desktop/to-do_list/")
-             : "/Users/samuelediaferio/Desktop/to-do_list/";
+  return (!path.empty()) ? path.insert(0, "absolutePath") : "absolutePath";
 }
 
 std::string getPath() {
