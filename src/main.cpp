@@ -3,6 +3,7 @@
 #include <filesystem>
 #include <fstream>
 #include <iostream>
+#include <ostream>
 #include <sstream>
 #include <string>
 #include <vector>
@@ -101,25 +102,22 @@ void rm(std::string &path, const std::string &argv) {
 void newPath(std::string argv) {
   if (argv.find(".txt") == std::string::npos)
     argv.append(".txt");
-  argv = addAbsolutePath(argv);
-  std::ofstream newFile(argv);
-  std::cout << argv << "file creato" << std::endl;
+  std::ofstream newFile(addAbsolutePath(argv));
+  std::cout << argv << " file creato" << std::endl;
   newFile.close();
 }
 
 void change(std::string argv) {
   if (argv.find(".txt") == std::string::npos)
     argv.append(".txt");
-  argv = addAbsolutePath(argv);
   std::ofstream file(addAbsolutePath("src/path.txt"));
-  std::cout << "path = " << addAbsolutePath("src/path.txt")
-            << " | file = " << argv << std::endl;
   if (!file) {
     std::cerr << "nessun file trovato" << std::endl;
     exit(1);
   }
-  file << argv;
+  file << addAbsolutePath(argv);
   file.close();
+  std::cout << "lista cambiata, adesso sei nella lista: " << argv << std::endl;
 }
 
 void rmFile(std::string argv) {
