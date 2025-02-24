@@ -8,7 +8,7 @@
 #include <vector>
 
 std::string getPath() {
-  std::ifstream file("/Users/samuelediaferio/Desktop/to-do_list/src/path.txt");
+  std::ifstream file("./src/path.txt");
   if (!file) {
     std::cerr << "Errore: impossibile aprire path.txt\n";
     return "";
