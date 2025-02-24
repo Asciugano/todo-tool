@@ -8,7 +8,7 @@
 #include <vector>
 
 std::string getPath() {
-  std::ifstream file("./src/path.txt");
+  std::ifstream file("/Users/samuelediaferio/Desktop/to-do_list/src/path.txt");
   if (!file) {
     std::cerr << "Errore: impossibile aprire path.txt\n";
     return "";
@@ -103,7 +103,7 @@ void newPath(std::string argv) {
 void change(std::string argv) {
   if (argv.find(".txt") == std::string::npos)
     argv.append(".txt");
-  std::ofstream file("/Users/samuelediaferio/Desktop/to-do_list/src/path.txt");
+  std::ofstream file(getPath());
   if (!file) {
     std::cerr << "nessun file trovato" << std::endl;
     exit(1);
