@@ -101,6 +101,7 @@ void rm(std::string &path, const std::string &argv) {
 void newPath(std::string argv) {
   if (argv.find(".txt") == std::string::npos)
     argv.append(".txt");
+  argv = addAbsolutePath(argv);
   std::ofstream newFile(argv);
   std::cout << argv << "file creato" << std::endl;
   newFile.close();
@@ -109,6 +110,7 @@ void newPath(std::string argv) {
 void change(std::string argv) {
   if (argv.find(".txt") == std::string::npos)
     argv.append(".txt");
+  argv = addAbsolutePath(argv);
   std::ofstream file(getPath());
   if (!file) {
     std::cerr << "nessun file trovato" << std::endl;
