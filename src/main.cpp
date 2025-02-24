@@ -35,8 +35,8 @@ void help() {
       << "<--help>                     | Mostra questa schermata\n\n"
       << "La lista default e to-do\n\n"
       << "Esempi:\n"
-      << "./a.out add palestra\n"
-      << "./a.out rm palestra\n\n";
+      << "todo add palestra\n"
+      << "todo rm palestra\n\n";
 }
 
 void add(const std::string &path, const std::string &argv) {
