@@ -123,8 +123,12 @@ void rmFile(std::string argv) {
 
 void ls_list() {
   for (const auto &entry : std::filesystem::directory_iterator(".")) {
-    if (entry.is_regular_file() && entry.path().extension() == ".txt")
-      std::cout << entry.path().filename() << std::endl;
+    if (entry.is_regular_file()) {
+      std::string ext = entry.path().extension().string();
+
+      if (!ext.empty() && ext == ".txt")
+        std::cout << entry.path().filename() << std::endl;
+    }
   }
 }
 
@@ -148,8 +152,8 @@ void checkArg(int argc, char *argv[]) {
           ls_list();
         else
           std::cout << "Sintassi sbagliata, controlla --help\n";
-      }
-      ls(path);
+      } else
+        ls(path);
     } else if (argv1 == "add" && argc > 2)
       add(path, argv[2]);
     else if (argv1 == "--help" || argv1 == "-h")
@@ -173,7 +177,8 @@ void checkArg(int argc, char *argv[]) {
     } else {
       std::cout << "Sintassi sbagliata, controlla --help\n";
     }
-  }
+  } else
+    std::cout << "Sintassi sbagliata, controlla --help\n";
 }
 
 int main(int argc, char *argv[]) {
