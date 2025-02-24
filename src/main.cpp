@@ -7,8 +7,14 @@
 #include <string>
 #include <vector>
 
+std::string addAbsolutePath(std::string path) {
+  return (!path.empty())
+             ? path.insert(0, "/Users/samuelediaferio/Desktop/to-do_list/")
+             : "/Users/samuelediaferio/Desktop/to-do_list/";
+}
+
 std::string getPath() {
-  std::ifstream file("/Users/samuelediaferio/Desktop/to-do_list/src/path.txt");
+  std::ifstream file(addAbsolutePath("src/path.txt"));
   if (!file) {
     std::cerr << "Errore: impossibile aprire path.txt\n";
     return "";
@@ -39,7 +45,8 @@ void help() {
       << "todo rm palestra\n\n";
 }
 
-void add(const std::string &path, const std::string &argv) {
+void add(std::string &path, const std::string &argv) {
+  path = addAbsolutePath(path);
   std::ofstream file(path, std::ios::app);
   if (!file) {
     std::cerr << "Errore: impossibile aprire " << path << "\n";
@@ -48,7 +55,8 @@ void add(const std::string &path, const std::string &argv) {
   file << argv << "\n";
 }
 
-void ls(const std::string &path) {
+void ls(std::string &path) {
+  path = addAbsolutePath(path);
   std::ifstream file(path);
   if (!file) {
     std::cerr << "Errore: impossibile aprire " << path << "\n";
@@ -61,7 +69,8 @@ void ls(const std::string &path) {
   }
 }
 
-void rm(const std::string &path, const std::string &argv) {
+void rm(std::string &path, const std::string &argv) {
+  path = addAbsolutePath(path);
   if (argv == "--all" || argv == "-a") {
     std::ofstream outFile(path, std::ios::trunc);
     outFile.close();
@@ -88,6 +97,8 @@ void rm(const std::string &path, const std::string &argv) {
       content.erase(pos);
   }
 
+  path = addAbsolutePath(path);
+
   std::ofstream outFile(path);
   outFile << content;
 }
@@ -95,6 +106,7 @@ void rm(const std::string &path, const std::string &argv) {
 void newPath(std::string argv) {
   if (argv.find(".txt") == std::string::npos)
     argv.append(".txt");
+  argv = addAbsolutePath(argv);
   std::ofstream newFile(argv);
   std::cout << argv << "file creato" << std::endl;
   newFile.close();
@@ -104,7 +116,6 @@ void change(std::string argv) {
   if (argv.find(".txt") == std::string::npos)
     argv.append(".txt");
   std::ofstream file(getPath());
-  argv.insert(0, "/Users/samuelediaferio/Desktop/to-do_list/");
   if (!file) {
     std::cerr << "nessun file trovato" << std::endl;
     exit(1);
