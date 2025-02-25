@@ -20,11 +20,12 @@ todo add palestra
 todo rm palestra
 
 to use insert:
-export PATH="$PATH:/Users/samuelediaferio/Desktop/to-do_list/"
-export PATH="$PATH:$HOME/bin"
+export PATH="$PATH:/your/path/to-do_list/"
+export PATH="$PATH:your/path/bin"
 in yours .zshrc
 after run: 
 source ~/.zshrs
+cd path/to/to-do_list
 g++ -std=c++20 src/main.cpp -o todo
 mv todo ~/bin/
-and use the to-do tool
+and use the to-do tool  
