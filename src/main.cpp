@@ -24,24 +24,26 @@ std::string getPath() {
 }
 
 void help() {
-  std::cout
-      << "todo <operation> [value]\n\n"
-      << "<add> [value]                | Aggiunge un elemento alla todo list\n"
-      << "<rm> [value]                 | Rimuove un elemento dalla todo list\n"
-      << "<rm> [-a|--all]              | Rimuove tutti gli elementi\n"
-      << "<rm> [-f] [value]            | Rivuove la lista [value]\n"
-      << "<ls>                         | Visualizza tutti gli elementi\n"
-      << "<ls> [-l | --list]           | Visualizza tutte le liste\n"
-      << "<-n | --new> [value]         | Crea una nuova lista con nome "
-         "[value]\n"
-      << "<change> [value]             | Cambia dalla lista corrente a quella "
-         "[value]\n"
-      << "<-nc | --new-change> [value] | Fa il new e il change insime\n"
-      << "<--help>                     | Mostra questa schermata\n\n"
-      << "La lista default e to-do\n\n"
-      << "Esempi:\n"
-      << "todo add palestra\n"
-      << "todo rm palestra\n\n";
+  std::cout << "┌───────────────────────────────────────────────────────────────────────────────┐\n"
+            << "│  todo <operation> [value]                                                     │\n"
+            << "│                                                                               │\n"
+            << "│  <add> [value]                | Aggiunge un elemento alla todo list           │\n"
+            << "│  <rm> [value]                 | Rimuove un elemento dalla todo list           │\n"
+            << "│  <rm> [-a|--all]              | Rimuove tutti gli elementi                    │\n"
+            << "│  <rm> [-f] [value]            | Rivuove la lista [value]                      │\n"
+            << "│  <ls>                         | Visualizza tutti gli elementi                 │\n"
+            << "│  <ls> [-l | --list]           | Visualizza tutte le liste                     │\n"
+            << "│  <-n | --new> [value]         | Crea una nuova lista con nome [value]         │\n"
+            << "│  <change> [value]             | Cambia dalla lista corrente a quella [value]  │\n"
+            << "│  <-nc | --new-change> [value] | Fa il new e il change insime                  │\n"
+            << "│  <--help>                     | Mostra questa schermata                       │\n"
+            << "│                                                                               │\n"
+            << "│  La lista default e to-do                                                     │\n"
+            << "│                                                                               │\n"
+            << "│  Esempi:                                                                      │\n"
+            << "│  todo add palestra                                                            │\n"
+            << "│  todo rm palestra                                                             │\n"
+            << "└───────────────────────────────────────────────────────────────────────────────┘\n\n";
 }
 
 void add(std::string &path, const std::string &argv) {
